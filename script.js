@@ -35,7 +35,7 @@ const questions = {
       { q: "Solve: 2x² + 4x - 6 = 0", a: ["x=1,-3","x=-1,3","x=2,-3","x=-2,3"], correct: 1 },
       { q: "Integrate: ∫2x dx", a: ["x² + C","2x² + C","x + C","2x + C"], correct: 0 },
       { q: "Derivative of x²?", a: ["1","2x","x","x²"], correct: 1 },
-      { q: "Factor: x² - 16", a: ["(x-4)(x+4)","(x+4)²","x²-8","(x-8)(x+2)"], correct: 0 },
+      { q: "Factor: x² - 16", a: ["(x-4)(x+4)","(x+4)²","x²-8","(x-8)(x+2)"], correct: 0 }
     ]
   },
   english: {
@@ -78,28 +78,28 @@ const questions = {
   }
 };
 
-// Difficulty settings: updated as you requested
+// Difficulty settings
 const difficultySettings = {
-  easy: { numQuestions: 10, totalTime: 600 },   // 10 min total
-  medium: { numQuestions: 15, totalTime: 300 }, // 5 min total
-  hard: { numQuestions: 20, totalTime: 180 }   // 3 min total
+  easy: { numQuestions: 10, timePerQ: 60 },
+  medium: { numQuestions: 15, timePerQ: 20 },
+  hard: { numQuestions: 20, timePerQ: 9 }
 };
 
 // State
 let currentQuestions = [], currentIndex = 0, score = 0;
 let subject = "math", difficulty = "easy";
-let timerInterval, timeLeft = 0;
+let timerInterval, totalTime = 0, timeLeft = 0;
 
 // Elements
-const setupEl = document.getElementById("setup");
-const quizEl = document.getElementById("quiz");
+const setup = document.getElementById("setup");
+const quiz = document.getElementById("quiz");
 const questionEl = document.getElementById("question");
 const answersEl = document.getElementById("answers");
-const questionNumberEl = document.getElementById("questionNumber");
-const progressEl = document.getElementById("progress");
+const questionNumber = document.getElementById("questionNumber");
+const progress = document.getElementById("progress");
 const timerBar = document.getElementById("timerBar");
 const endModal = document.getElementById("endModal");
-const finalScoreEl = document.getElementById("finalScore");
+const finalScore = document.getElementById("finalScore");
 const startBtn = document.getElementById("startQuizBtn");
 const skipBtn = document.getElementById("skipBtn");
 const restartBtn = document.getElementById("restartBtn");
@@ -115,133 +115,138 @@ const tipBox = document.getElementById("tipBox");
 
 // Tips
 const tips = [
-  "Read every question carefully before answering.",
-  "Manage your time wisely; don’t spend too long on one question.",
-  "Use process of elimination to narrow answer choices.",
-  "Answer the easy questions first.",
-  "Guess intelligently if unsure; eliminate wrong options first.",
-  "Double-check calculations in math problems.",
-  "Underline key words in reading passages.",
-  "Watch for commonly confused words in English.",
-  "Take short mental breaks if you feel stuck.",
-  "Practice pacing to finish all questions on time."
+  "Pace yourself!",
+  "Eliminate wrong answers first.",
+  "Double-check calculations.",
+  "Context matters in English."
 ];
-let currentTip = 0;
-setInterval(() => { tipBox.textContent = tips[currentTip]; currentTip=(currentTip+1)%tips.length; },4000);
+let tipIndex = 0;
+setInterval(() => {
+  tipBox.textContent = tips[tipIndex];
+  tipIndex = (tipIndex + 1) % tips.length;
+}, 4000);
 
 // Subject/Difficulty selection
 document.querySelectorAll(".subject-btn").forEach(btn => {
-  btn.addEventListener("click",()=>{document.querySelectorAll(".subject-btn").forEach(b=>b.classList.remove("selected")); btn.classList.add("selected"); subject=btn.dataset.subject; updateStartButtonState(); });
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".subject-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    subject = btn.dataset.subject;
+  });
 });
 document.querySelectorAll(".difficulty-btn").forEach(btn => {
-  btn.addEventListener("click",()=>{document.querySelectorAll(".difficulty-btn").forEach(b=>b.classList.remove("selected")); btn.classList.add("selected"); difficulty=btn.dataset.difficulty; updateStartButtonState(); });
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".difficulty-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    difficulty = btn.dataset.difficulty;
+  });
 });
 
-function updateStartButtonState(){ 
-  if(subject && difficulty) startBtn.classList.add("ready"); 
-  else startBtn.classList.remove("ready");
-}
-
-// Start Quiz
-startBtn.addEventListener("click", ()=>{
-  if(!subject || !difficulty) return;
-  currentQuestions = shuffleArray(questions[subject][difficulty]).slice(0,difficultySettings[difficulty].numQuestions);
-  currentIndex=0; score=0;
-  timeLeft = difficultySettings[difficulty].totalTime;
-  setupEl.style.display="none";
-  setupEl.style.justifyContent="center"; // fix floating setup
-  quizEl.classList.remove("hidden");
+// Start quiz
+startBtn.addEventListener("click", () => {
+  currentQuestions = shuffleArray(questions[subject][difficulty]).slice(0, difficultySettings[difficulty].numQuestions);
+  currentIndex = 0;
+  score = 0;
+  totalTime = difficultySettings[difficulty].numQuestions * difficultySettings[difficulty].timePerQ;
+  timeLeft = totalTime;
+  setup.style.display = "none";
+  quiz.classList.remove("hidden");
   loadQuestion();
   startTimer();
 });
 
 // Timer
-function startTimer(){
+function startTimer() {
   clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
+  timerInterval = setInterval(() => {
     timeLeft--;
-    timerBar.style.width = (timeLeft/difficultySettings[difficulty].totalTime*100)+"%";
-    if(timeLeft<=0){ clearInterval(timerInterval); endQuiz(); }
-  },1000);
+    timerBar.style.width = (timeLeft / totalTime * 100) + "%";
+    if (timeLeft <= 0) { clearInterval(timerInterval); endQuiz(); }
+  }, 1000);
 }
 
 // Load Question
-function loadQuestion(){
-  if(currentIndex >= currentQuestions.length){ endQuiz(); return; }
-  const q = currentQuestions[currentIndex];
-  questionNumberEl.classList.remove("show");
+function loadQuestion() {
+  if (currentIndex >= currentQuestions.length) { endQuiz(); return; }
+  let q = currentQuestions[currentIndex];
+
   questionEl.classList.remove("show");
+  questionNumber.classList.remove("show");
   answersEl.classList.remove("show");
 
-  setTimeout(()=>{
-    questionNumberEl.textContent = `Question ${currentIndex+1} / ${currentQuestions.length}`;
+  setTimeout(() => {
     questionEl.textContent = q.q;
-    questionNumberEl.classList.add("show");
+    questionNumber.textContent = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
     questionEl.classList.add("show");
+    questionNumber.classList.add("show");
 
     answersEl.innerHTML = "";
-    q.a.forEach((ans,i)=>{
+    q.a.forEach((ans, i) => {
       const btn = document.createElement("button");
-      btn.className="setup-btn";
-      btn.textContent=ans;
-      btn.addEventListener("click", ()=>{ checkAnswer(i); });
+      btn.className = "setup-btn";
+      btn.textContent = ans;
+      btn.onclick = () => { checkAnswer(i); };
       answersEl.appendChild(btn);
     });
     answersEl.classList.add("show");
     updateProgress();
-  },50);
+  }, 50);
 }
 
 // Check Answer
-function checkAnswer(idx){
+function checkAnswer(idx) {
   const q = currentQuestions[currentIndex];
   const btns = answersEl.querySelectorAll("button");
-  btns.forEach((b,i)=>{ b.disabled=true; if(i===q.correct) b.classList.add("correct"); else if(i===idx) b.classList.add("wrong"); });
-  if(idx===q.correct) score++;
-  setTimeout(()=>{ currentIndex++; loadQuestion(); },500);
+  btns.forEach((b, i) => { 
+    b.disabled = true; 
+    if (i === q.correct) b.classList.add("correct"); 
+    else if (i === idx) b.classList.add("wrong"); 
+  });
+  if (idx === q.correct) score++;
+  setTimeout(() => { currentIndex++; loadQuestion(); }, 500);
 }
 
 // Progress
-function updateProgress(){ progressEl.style.width = (currentIndex/currentQuestions.length*100)+"%"; }
+function updateProgress() { progress.style.width = (currentIndex / currentQuestions.length * 100) + "%"; }
 
 // End Quiz
-function endQuiz(){
+function endQuiz() {
   clearInterval(timerInterval);
-  quizEl.classList.add("hidden");
+  quiz.classList.add("hidden");
   endModal.classList.add("show");
-  let rawScore = Math.round((score/currentQuestions.length)*800);
-  let displayedScore=0;
-  const interval=setInterval(()=>{
-    displayedScore+=Math.ceil(rawScore/50);
-    if(displayedScore>=rawScore){ displayedScore=rawScore; clearInterval(interval); }
-    finalScoreEl.textContent=`You scored ${displayedScore} / 800`;
-  },30);
+  let rawScore = Math.round(score / currentQuestions.length * 800);
+  let displayedScore = 0;
+  const interval = setInterval(() => {
+    displayedScore += Math.ceil(rawScore / 50);
+    if (displayedScore >= rawScore) { displayedScore = rawScore; clearInterval(interval); }
+    finalScore.textContent = `You scored ${displayedScore} / 800`;
+  }, 30);
 }
 
 // Buttons
-skipBtn.onclick = ()=>{ clearInterval(timerInterval); currentIndex++; loadQuestion(); startTimer(); }
-restartBtn.onclick = ()=>{ clearInterval(timerInterval); currentIndex=0; score=0; loadQuestion(); startTimer(); }
-nextBtn.onclick = ()=>{ clearInterval(timerInterval); currentIndex++; loadQuestion(); startTimer(); }
-backBtn.onclick = ()=>{ clearInterval(timerInterval); currentIndex=Math.max(0,currentIndex-1); loadQuestion(); startTimer(); }
-retryBtn.onclick = ()=>{ endModal.classList.remove("show"); currentIndex=0; score=0; loadQuestion(); quizEl.classList.remove("hidden"); startTimer(); }
-setupBtn.onclick = ()=>{ endModal.classList.remove("show"); quizEl.classList.add("hidden"); setupEl.style.display="flex"; setupEl.style.justifyContent="center"; }
+skipBtn.onclick = () => { currentIndex++; loadQuestion(); }
+restartBtn.onclick = () => { currentIndex = 0; score = 0; loadQuestion(); startTimer(); }
+nextBtn.onclick = () => { currentIndex++; loadQuestion(); }
+backBtn.onclick = () => { currentIndex = Math.max(0, currentIndex - 1); loadQuestion(); }
+retryBtn.onclick = () => { endModal.classList.remove("show"); currentIndex = 0; score = 0; loadQuestion(); quiz.classList.remove("hidden"); startTimer(); }
+setupBtn.onclick = () => { endModal.classList.remove("show"); quiz.classList.add("hidden"); setup.style.display = "flex"; }
 
 // Settings
-settingsBtn.onclick = ()=>{ settingsModal.classList.add("show"); }
-closeSettings.onclick = ()=>{ settingsModal.classList.remove("show"); }
-themeToggle.onchange = e=>{ document.body.classList.toggle("dark", e.target.checked); }
+settingsBtn.onclick = () => { settingsModal.classList.add("show"); }
+closeSettings.onclick = () => { settingsModal.classList.remove("show"); }
+themeToggle.onchange = e => { document.body.classList.toggle("dark", e.target.checked); }
 
 // Keybinds
-document.addEventListener("keydown",(e)=>{
-  if(quizEl.classList.contains("hidden")) return;
+document.addEventListener("keydown", (e) => {
+  if (quiz.classList.contains("hidden")) return;
   const btns = answersEl.querySelectorAll("button");
-  if(["1","2","3","4"].includes(e.key)){ const idx=parseInt(e.key)-1; if(btns[idx]) btns[idx].click(); }
-  if(e.key==="ArrowRight") nextBtn.click();
-  if(e.key==="ArrowLeft") backBtn.click();
+  if (["1","2","3","4"].includes(e.key)) { 
+    const idx = parseInt(e.key) - 1; 
+    if (btns[idx]) btns[idx].click(); 
+  }
+  if (e.key === "ArrowRight") nextBtn.click();
+  if (e.key === "ArrowLeft") backBtn.click();
 });
 
-// Helper
-function shuffleArray(arr){ return arr.sort(()=>Math.random()-0.5); }
- 
-<script src="script.js"></script>
-
+// Helpers
+function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
