@@ -4,76 +4,76 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAT Quick Fire</title>
-<!-- Link to your CSS -->
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark">
 
 <div class="container">
 
-<!-- Setup -->
-<div id="setup">
-  <canvas id="setupCanvas"></canvas>
-  <div class="setup-box">
-    <h1>SAT Quick Fire</h1>
-    <div id="subjectSelection">
-      <h3>Choose Subject:</h3>
-      <div class="subject-buttons">
-        <button class="setup-btn subject-btn selected" data-subject="math">🧮 Math</button>
-        <button class="setup-btn subject-btn" data-subject="english">📖 English</button>
+  <!-- Setup -->
+  <div id="setup">
+    <canvas id="setupCanvas"></canvas>
+    <div class="setup-box">
+      <h1>SAT Quick Fire</h1>
+      <div id="subjectSelection">
+        <h3>Choose Subject:</h3>
+        <div class="subject-buttons">
+          <button class="setup-btn subject-btn selected" data-subject="math">🧮 Math</button>
+          <button class="setup-btn subject-btn" data-subject="english">📖 English</button>
+        </div>
       </div>
-    </div>
-    <div id="difficultySelection">
-      <h3>Select Difficulty:</h3>
-      <div class="subject-buttons">
-        <button class="setup-btn difficulty-btn" data-difficulty="easy">Easy</button>
-        <button class="setup-btn difficulty-btn" data-difficulty="medium">Medium</button>
-        <button class="setup-btn difficulty-btn" data-difficulty="hard">Hard</button>
+      <div id="difficultySelection">
+        <h3>Select Difficulty:</h3>
+        <div class="subject-buttons">
+          <button class="setup-btn difficulty-btn" data-difficulty="easy">Easy</button>
+          <button class="setup-btn difficulty-btn" data-difficulty="medium">Medium</button>
+          <button class="setup-btn difficulty-btn" data-difficulty="hard">Hard</button>
+        </div>
       </div>
+      <button class="setup-btn" id="startQuizBtn">Start Quiz</button>
+      <button class="setup-btn" id="settingsBtn">⚙️ Settings</button>
     </div>
-    <button class="setup-btn" id="startQuizBtn">Start Quiz</button>
-    <button class="setup-btn" id="settingsBtn">⚙️ Settings</button>
   </div>
+
+  <!-- Quiz -->
+  <div id="quiz" class="hidden">
+    <div id="progress"></div>
+    <div id="timerBarContainer"><div id="timerBar"></div></div>
+    <div id="questionNumber"></div>
+    <div id="question"></div>
+    <div id="answers"></div>
+    <div class="quiz-actions">
+      <button class="setup-btn" id="backBtn">←</button>
+      <button class="setup-btn" id="skipBtn">Skip</button>
+      <button class="setup-btn" id="restartBtn">Restart</button>
+      <button class="setup-btn" id="nextBtn">→</button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="content">
+      <h2>Settings</h2>
+      <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
+      <button class="setup-btn" id="closeSettings">Close</button>
+    </div>
+  </div>
+
+  <!-- End Modal -->
+  <div id="endModal" class="modal">
+    <div class="content">
+      <h2>Quiz Finished!</h2>
+      <p id="finalScore"></p>
+      <button class="setup-btn" id="retryBtn">Retry</button>
+      <button class="setup-btn" id="setupBtn">Back to Setup</button>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div id="tipBox"></div>
+
 </div>
 
-<!-- Quiz -->
-<div id="quiz" class="hidden">
-  <div id="progress"></div>
-  <div id="timerBarContainer"><div id="timerBar"></div></div>
-  <div id="questionNumber"></div>
-  <div id="question"></div>
-  <div id="answers"></div>
-  <div class="quiz-actions">
-    <button id="backBtn">←</button>
-    <button id="skipBtn">Skip</button>
-    <button id="restartBtn">Restart</button>
-    <button id="nextBtn">→</button>
-  </div>
-</div>
-
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal">
-  <div class="content">
-    <h2>Settings</h2>
-    <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
-    <button class="setup-btn" id="closeSettings">Close</button>
-  </div>
-</div>
-
-<!-- End Modal -->
-<div id="endModal" class="modal">
-  <div class="content">
-    <h2>Quiz Finished!</h2>
-    <p id="finalScore"></p>
-    <button class="setup-btn" id="retryBtn">Retry</button>
-    <button class="setup-btn" id="setupBtn">Back to Setup</button>
-  </div>
-</div>
-
-<!-- Tips -->
-<div id="tipBox"></div>
-
-<!-- Script -->
 <script src="script.js"></script>
 </body>
 </html>
