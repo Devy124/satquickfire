@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap');
 
-body.dark { background: #121212; color: #f4f4f4; }
+/* Light mode default */
 body { 
     font-family:'Inter','Segoe UI',sans-serif; 
     font-weight:700; 
@@ -9,6 +9,12 @@ body {
     background:#f4f4f4; 
     color:#121212; 
     transition: background 0.3s, color 0.3s; 
+}
+
+/* Dark mode */
+body.dark { 
+    background: #121212; 
+    color: #f4f4f4; 
 }
 
 /* Container */
@@ -34,6 +40,11 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s; 
     width:100%; 
     margin:8px 0; 
+}
+body:not(.dark) .setup-btn {
+    background-color:#f4f4f4;
+    color:#121212;
+    border:2px solid #aaa;
 }
 .setup-btn:hover { 
     transform:translateY(-3px); 
@@ -64,6 +75,8 @@ body {
     margin-bottom:12px; 
     overflow:hidden; 
 }
+body:not(.dark) #timerBarContainer { background:#ddd; }
+
 #timerBar { 
     height:100%; 
     width:100%; 
@@ -143,6 +156,11 @@ body {
     color:#f4f4f4; 
     transition: all 0.3s;
 }
+body:not(.dark) #quiz .quiz-actions button {
+    background:#f4f4f4; 
+    color:#121212; 
+    border:2px solid #aaa;
+}
 #quiz .quiz-actions button:hover { 
     transform:translateY(-3px); 
     box-shadow:0 8px 20px rgba(76,140,255,0.5); 
@@ -165,10 +183,12 @@ body {
     align-items: center;
     z-index: 50;
     padding: 20px;
-    overflow: auto; /* scroll if screen is too small */
+    overflow: auto;
     box-sizing: border-box;
 }
+body:not(.dark) #setup { background:#f4f4f4; }
 
+/* Setup canvas */
 #setupCanvas { 
     position:absolute; 
     top:0; 
@@ -179,6 +199,7 @@ body {
     pointer-events:none; 
 }
 
+/* Setup box */
 #setup .setup-box {
     position: relative;
     z-index: 2;
@@ -187,10 +208,11 @@ body {
     padding: 30px 20px;
     max-width: 400px;
     width: 100%;
-    max-height: 90vh; /* limit height on mobile */
-    overflow-y: auto; /* allow scrolling */
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+body:not(.dark) #setup .setup-box { background:#fff; color:#121212; }
 
 /* Difficulty buttons side by side */
 #difficultySelection .subject-buttons { 
@@ -232,6 +254,7 @@ body {
     opacity:0; 
 }
 .modal.show .content { transform:scale(1); opacity:1; }
+body:not(.dark) .modal .content { background:#fff; color:#121212; }
 
 /* Bounce */
 @keyframes bounceSelect { 0%{transform:scale(1);}30%{transform:scale(1.15);}60%{transform:scale(0.95);}100%{transform:scale(1);}}
@@ -250,4 +273,8 @@ body {
     border-radius:10px; 
     z-index:100; 
     text-align:center; 
+}
+body:not(.dark) #tipBox { 
+    color:#121212; 
+    background:rgba(255,255,255,0.3);
 }
