@@ -1,3 +1,4 @@
+
 // Question Bank
 const questions = {
   math: {
@@ -101,7 +102,6 @@ const timerBar = document.getElementById("timerBar");
 const endModal = document.getElementById("endModal");
 const finalScore = document.getElementById("finalScore");
 const startBtn = document.getElementById("startQuizBtn");
-const skipBtn = document.getElementById("skipBtn");
 const restartBtn = document.getElementById("restartBtn");
 const nextBtn = document.getElementById("nextBtn");
 const backBtn = document.getElementById("backBtn");
@@ -224,8 +224,23 @@ function endQuiz() {
 }
 
 // Buttons
-skipBtn.onclick = () => { currentIndex++; loadQuestion(); }
-restartBtn.onclick = () => { currentIndex = 0; score = 0; loadQuestion(); startTimer(); }
+restartBtn.onclick = () => {
+  // Stop timer
+  clearInterval(timerInterval);
+
+  // Reset state
+  currentIndex = 0;
+  score = 0;
+  currentQuestions = [];
+
+  // Hide quiz and end modals
+  quiz.classList.add("hidden");
+  endModal.classList.remove("show");
+
+  // Show setup
+  setup.style.display = "flex";
+};
+
 nextBtn.onclick = () => { currentIndex++; loadQuestion(); }
 backBtn.onclick = () => { currentIndex = Math.max(0, currentIndex - 1); loadQuestion(); }
 retryBtn.onclick = () => { endModal.classList.remove("show"); currentIndex = 0; score = 0; loadQuestion(); quiz.classList.remove("hidden"); startTimer(); }
@@ -250,3 +265,71 @@ document.addEventListener("keydown", (e) => {
 
 // Helpers
 function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
+// ------------------ Persistent Stats ------------------
+
+// Initialize stats from localStorage or defaults
+let stats = JSON.parse(localStorage.getItem("quizStats")) || {
+  totalQuizzes: 0,
+  totalCorrect: 0,
+  totalIncorrect: 0,
+  totalScore: 0
+};
+
+// Create/update stats display in settings
+function updateStatsDisplay() {
+  let statsContainer = document.getElementById("statsContainer");
+  if (!statsContainer) {
+    statsContainer = document.createElement("div");
+    statsContainer.id = "statsContainer";
+    statsContainer.style.marginTop = "20px";
+    statsContainer.style.textAlign = "left";
+    statsContainer.style.padding = "10px";
+    statsContainer.style.borderTop = "1px solid #888";
+    settingsModal.querySelector(".content").appendChild(statsContainer);
+  }
+
+  // Ensure all stats values are numbers
+  stats.totalQuizzes = stats.totalQuizzes || 0;
+  stats.totalCorrect = stats.totalCorrect || 0;
+  stats.totalIncorrect = stats.totalIncorrect || 0;
+  stats.totalScore = stats.totalScore || 0;
+
+  statsContainer.innerHTML = `
+    <h3>Stats</h3>
+    <p>Total Quizzes Taken: ${stats.totalQuizzes}</p>
+    <p>Total Correct Answers: ${stats.totalCorrect}</p>
+    <p>Total Incorrect Answers: ${stats.totalIncorrect}</p>
+    <p>Total Score: ${stats.totalScore}</p>
+  `;
+}
+
+// Update stats after quiz ends
+function updateStats() {
+  // Safety checks
+  if (typeof score !== "number") score = 0;
+  if (!Array.isArray(currentQuestions)) currentQuestions = [];
+
+  stats.totalQuizzes += 1;
+  stats.totalCorrect += score;
+  stats.totalIncorrect += (currentQuestions.length - score);
+  stats.totalScore += Math.round((score / currentQuestions.length) * 800);
+
+  // Save to localStorage
+  localStorage.setItem("quizStats", JSON.stringify(stats));
+
+  // Update the display
+  updateStatsDisplay();
+}
+
+// Wrap original endQuiz to update stats automatically
+const originalEndQuiz = endQuiz;
+endQuiz = function() {
+  originalEndQuiz();
+  updateStats();
+};
+
+// Update stats display immediately when opening settings
+settingsBtn.onclick = () => {
+  settingsModal.classList.add("show");
+  updateStatsDisplay();
+};
