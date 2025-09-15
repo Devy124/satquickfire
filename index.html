@@ -44,20 +44,24 @@
     <div id="answers"></div>
     <div class="quiz-actions">
       <button class="setup-btn" id="backBtn">←</button>
-      <button class="setup-btn" id="skipBtn">Skip</button>
-      <button class="setup-btn" id="restartBtn">Restart</button>
+      <button class="setup-btn" id="restartBtn">back to start</button>
       <button class="setup-btn" id="nextBtn">→</button>
     </div>
   </div>
 
-  <!-- Settings Modal -->
-  <div id="settingsModal" class="modal">
-    <div class="content">
-      <h2>Settings</h2>
-      <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
-      <button class="setup-btn" id="closeSettings">Close</button>
-    </div>
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="content">
+    <h2>Settings</h2>
+    <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
+
+    <!-- Stats will be injected here by JS -->
+    <div id="statsContainer"></div>
+
+    <button class="setup-btn" id="closeSettings">Close</button>
   </div>
+</div>
+
 
   <!-- End Modal -->
   <div id="endModal" class="modal">
