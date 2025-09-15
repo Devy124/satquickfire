@@ -1,25 +1,39 @@
-# SAT Quick Fire
+SAT Quick Fire
 
-**SAT Quick Fire** is a fast-paced, web-based SAT practice quiz. Choose a subject and difficulty, answer multiple-choice questions under a timer, and track your score out of 800. Designed for quick SAT preparation and practice.
+SAT Quick Fire is a fast-paced, interactive web quiz designed to help students practice SAT Math and English questions. It features difficulty selection, persistent statistics, streak tracking, and a dynamic countdown timer.
 
----
+Features
 
-## Features
+Math & English Questions
 
-- **Subjects:** Math 🧮, English 📖
-- **Difficulty Levels:**
-  - Easy: 10 questions, 10 minutes
-  - Medium: 15 questions, 5 minutes
-  - Hard: Max questions in 3 minutes
-- **Timer and Progress Bar:** Track remaining time and quiz completion
-- **Answer Feedback:** Correct/Incorrect indicators
-- **Quiz Controls:** Skip, Restart, Next, Back buttons
-- **Dark Mode:** Toggle via settings
-- **Tips Box:** Rotating SAT tips at the bottom
-- **Responsive Design:** Works on desktop and mobile
+Multiple difficulty levels: Easy, Medium, Hard
 
----
-UPDATES COMMING DAILY IM A SOLO DEV AND A NEWBIE 
+Randomized question selection
 
+Interactive Quiz
 
-thx
+Countdown timer with color-coded progress bar
+
+Numeric timer display
+
+Smooth animations for correct/wrong answers
+
+Persistent Stats
+
+Tracks total correct and incorrect answers
+
+Tracks total score out of 800
+
+Tracks streaks for consecutive quiz days
+
+Settings
+
+Dark/light mode toggle
+
+View streaks and statistics
+
+User-friendly Controls
+
+Restart quiz to go back to setup
+
+Navigate between questions
