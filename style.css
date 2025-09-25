@@ -1,361 +1,264 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap');
 
-/* Light mode default */
-body { 
-    font-family:'Inter','Segoe UI',sans-serif; 
-    font-weight:700; 
-    margin:0; 
-    padding:0; 
-    background:#f4f4f4; 
-    color:#121212; 
-    transition: background 0.3s, color 0.3s; 
+/* ---------- Base Styles ---------- */
+body {
+    font-family:'Inter','Segoe UI',sans-serif;
+    font-weight:700;
+    margin:0;
+    padding:0;
+    background:#f4f4f4;
+    color:#121212;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* Dark mode */
-body.dark { 
-    background: #121212; 
-    color: #f4f4f4; 
+body.dark {
+    background:#121212;
+    color:#f4f4f4;
 }
 
-/* Container */
-.container { 
-    text-align:center; 
-    max-width:600px; 
-    width:90%; 
-    margin:0 auto; 
-    position:relative; 
-    z-index:2; 
+.container {
+    text-align:center;
+    max-width:600px;
+    width:90%;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
 }
 
-/* Buttons */
-.setup-btn { 
-    font-size:18px; 
-    font-weight:700; 
-    padding:12px 25px; 
-    border-radius:16px; 
-    border:2px solid #444; 
-    cursor:pointer; 
-    background-color:#222; 
-    color:#f4f4f4; 
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s; 
-    width:100%; 
-    margin:8px 0; 
+/* ---------- Buttons ---------- */
+.setup-btn {
+    font-size:18px;
+    font-weight:700;
+    padding:12px 25px;
+    border-radius:16px;
+    border:2px solid #444;
+    cursor:pointer;
+    background-color:#222;
+    color:#f4f4f4;
+    transition: all 0.3s ease;
+    width:100%;
+    margin:8px 0;
+    position: relative;
+    z-index:3; /* ensures buttons are clickable above overlays */
 }
+
 body:not(.dark) .setup-btn {
     background-color:#f4f4f4;
     color:#121212;
     border:2px solid #aaa;
 }
-.setup-btn:hover { 
-    transform:translateY(-3px); 
-    box-shadow:0 6px 15px rgba(0,0,0,0.25); 
-}
-.setup-btn:active { 
-    transform:translateY(2px) scale(0.97); 
-    box-shadow:0 2px 6px rgba(0,0,0,0.2); 
-}
-.setup-btn.selected { 
-    border:3px solid #4c8cff; 
-    box-shadow:0 8px 20px rgba(76,140,255,0.5); 
-    background-color:#4c8cff; 
-    color:#fff; 
-    animation:bounceSelect 0.4s ease; 
+
+.setup-btn:hover {
+    transform:translateY(-3px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
 }
 
-/* Start Quiz pulse */
-@keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
-#startQuizBtn.ready { animation:pulse 1s infinite; }
-
-/* Timer and progress bars */
-#timerBarContainer { 
-    width:100%; 
-    height:12px; 
-    background:#555; 
-    border-radius:6px; 
-    margin-bottom:12px; 
-    overflow:hidden; 
-}
-body:not(.dark) #timerBarContainer { background:#ddd; }
-
-#timerBar { 
-    height:100%; 
-    width:100%; 
-    background:linear-gradient(90deg, #4c8cff, #28a745); 
-    border-radius:6px; 
-    transition: width 0.1s linear, background 0.3s; 
-}
-#progress { 
-    height:8px; 
-    background:linear-gradient(90deg,#4c8cff,#28a745); 
-    border-radius:4px; 
-    margin-bottom:12px; 
-    width:0; 
-    transition: width 0.3s ease-in-out, background 0.3s; 
+.setup-btn:active {
+    transform:translateY(2px) scale(0.97);
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* Questions */
-#question { 
-    opacity:0; 
-    transform:translateY(10px); 
-    transition:opacity 0.3s ease, transform 0.3s ease; 
-}
-#question.show { 
-    opacity:1; 
-    transform:translateY(0);
-}
-#questionNumber { 
-    font-weight:700; 
-    margin-bottom:8px; 
-    font-size:16px; 
-    opacity:0; 
-    transform:translateY(-10px); 
-    transition:opacity 0.3s ease, transform 0.3s ease; 
-}
-#questionNumber.show { 
-    opacity:1; 
-    transform:translateY(0); 
-}
-
-/* Answer buttons vertical */
-#answers { 
-    display:flex; 
-    flex-direction:column; 
-    gap:10px; 
-    margin-bottom:12px; 
-}
-.correct { 
-    animation: correctPulse 0.5s ease; 
-    background-color:#28a745 !important; 
-    color:#fff !important; 
-}
-.wrong { 
-    animation: wrongPulse 0.5s ease; 
-    background-color:#dc3545 !important; 
-    color:#fff !important; 
-}
-@keyframes correctPulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-@keyframes wrongPulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-
-/* Quiz action buttons */
-.quiz-actions { 
-    display:flex; 
-    justify-content:center; 
-    gap:10px; 
-    margin-bottom:10px;
-}
-#quiz .quiz-actions button { 
-    width:auto; 
-    min-width:80px; 
-    font-size:18px; 
-    font-weight:700; 
-    padding:12px 20px; 
-    border-radius:16px; 
-    border:2px solid #444; 
-    cursor:pointer; 
-    background-color:#222; 
-    color:#f4f4f4; 
-    transition: all 0.3s;
-}
-body:not(.dark) #quiz .quiz-actions button {
-    background:#f4f4f4; 
-    color:#121212; 
-    border:2px solid #aaa;
-}
-#quiz .quiz-actions button:hover { 
-    transform:translateY(-3px); 
-    box-shadow:0 8px 20px rgba(76,140,255,0.5); 
-    background-color:#4c8cff; 
+.setup-btn.selected {
+    border:3px solid #4c8cff;
+    box-shadow:0 8px 20px rgba(76,140,255,0.5);
+    background-color:#4c8cff;
     color:#fff;
+    animation:bounceSelect 0.4s ease;
 }
-#quiz .quiz-actions button:active { transform:translateY(2px) scale(0.97);}
-#quiz .quiz-actions button.bounce { animation:bounceSelect 0.4s ease; }
 
-/* Setup overlay */
+/* ---------- Keyframes ---------- */
+@keyframes bounceSelect {
+    0%{transform:scale(1);}
+    30%{transform:scale(1.15);}
+    60%{transform:scale(0.95);}
+    100%{transform:scale(1);}
+}
+
+/* ---------- Setup Overlay ---------- */
 #setup {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
-    padding: 20px;
-    overflow: auto;
-    box-sizing: border-box;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#121212;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
+    padding:20px;
+    overflow:auto;
+    box-sizing:border-box;
 }
+
 body:not(.dark) #setup { background:#f4f4f4; }
 
-/* Setup canvas */
-#setupCanvas { 
-    position:absolute; 
-    top:0; 
-    left:0; 
-    width:100%; 
-    height:100%; 
-    z-index:1; 
-    pointer-events:none; 
+/* ---------- Setup Canvas ---------- */
+#setupCanvas {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:1; /* behind buttons */
+    pointer-events:none; /* allows clicks through canvas */
 }
 
-/* Setup box */
+/* ---------- Setup Box ---------- */
 #setup .setup-box {
     position: relative;
-    z-index: 2;
+    z-index:2;
     background: #222;
-    border-radius: 16px;
-    padding: 30px 20px;
-    max-width: 400px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-body:not(.dark) #setup .setup-box { background:#fff; color:#121212; }
-
-/* Difficulty buttons side by side */
-#difficultySelection .subject-buttons { 
-    display:flex; 
-    justify-content:center; 
-    gap:10px; 
+    border-radius:16px;
+    padding:30px 20px;
+    max-width:400px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Quiz container */
+body:not(.dark) #setup .setup-box {
+    background:#fff;
+    color:#121212;
+}
+
+/* ---------- Difficulty Buttons Side by Side ---------- */
+#difficultySelection .subject-buttons {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+/* ---------- Quiz ---------- */
 #quiz.hidden { display:none; }
-#quiz { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; }
-
-/* Modals */
-.modal { 
-    position:fixed; 
-    top:0; 
-    left:0; 
-    width:100%; 
-    height:100%; 
-    background:rgba(0,0,0,0.7); 
-    display:flex; 
-    justify-content:center; 
-    align-items:center; 
-    opacity:0; 
-    pointer-events:none; 
-    transition:opacity 0.3s ease; 
-    z-index:100; 
+#quiz {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
-.modal.show { opacity:1; pointer-events:auto; }
-.modal .content { 
-    background:#222; 
-    color:#f4f4f4; 
-    padding:20px; 
-    border-radius:16px; 
-    text-align:center; 
-    min-width:300px; 
-    transform:scale(0.9); 
-    transition: transform 0.3s ease, opacity 0.3s ease; 
-    opacity:0; 
-}
-.modal.show .content { transform:scale(1); opacity:1; }
-body:not(.dark) .modal .content { background:#fff; color:#121212; }
 
-/* Bounce */
-@keyframes bounceSelect { 0%{transform:scale(1);}30%{transform:scale(1.15);}60%{transform:scale(0.95);}100%{transform:scale(1);}}
-
-/* Tips box */
-#tipBox { 
-    position:fixed; 
-    bottom:10px; 
-    left:50%; 
-    transform:translateX(-50%); 
-    font-size:14px; 
-    font-weight:500; 
-    color:#f4f4f4; 
-    background:rgba(0,0,0,0.3); 
-    padding:6px 12px; 
-    border-radius:10px; 
-    z-index:100; 
-    text-align:center; 
+/* ---------- Quiz Action Buttons ---------- */
+.quiz-actions {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
 }
-body:not(.dark) #tipBox { 
-    color:#121212; 
+
+#quiz .quiz-actions button {
+    width:auto;
+    min-width:80px;
+    font-size:18px;
+    font-weight:700;
+    padding:12px 20px;
+    border-radius:16px;
+    border:2px solid #444;
+    cursor:pointer;
+    background-color:#222;
+    color:#f4f4f4;
+    transition: all 0.3s;
+    z-index:3;
+}
+
+body:not(.dark) #quiz .quiz-actions button {
+    background:#f4f4f4;
+    color:#121212;
+    border:2px solid #aaa;
+}
+
+#quiz .quiz-actions button:hover {
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(76,140,255,0.5);
+    background-color:#4c8cff;
+    color:#fff;
+}
+
+#quiz .quiz-actions button:active {
+    transform:translateY(2px) scale(0.97);
+}
+
+/* ---------- Modals ---------- */
+.modal {
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.3s ease;
+    z-index:100;
+}
+
+.modal.show {
+    opacity:1;
+    pointer-events:auto;
+}
+
+.modal .content {
+    background:#222;
+    color:#f4f4f4;
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
+    min-width:300px;
+    transform:scale(0.9);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity:0;
+    z-index:101;
+}
+
+.modal.show .content {
+    transform:scale(1);
+    opacity:1;
+}
+
+body:not(.dark) .modal .content {
+    background:#fff;
+    color:#121212;
+}
+
+/* ---------- Tips ---------- */
+#tipBox {
+    position:fixed;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:14px;
+    font-weight:500;
+    color:#f4f4f4;
+    background:rgba(0,0,0,0.3);
+    padding:6px 12px;
+    border-radius:10px;
+    z-index:100;
+    text-align:center;
+}
+
+body:not(.dark) #tipBox {
+    color:#121212;
     background:rgba(255,255,255,0.3);
 }
-.correct { 
-    animation: correctPulse 0.5s ease; 
-    background-color:#28a745 !important; 
-    color:#fff !important; 
-}
-.wrong { 
-    animation: wrongPulse 0.5s ease; 
-    background-color:#dc3545 !important; 
-    color:#fff !important; 
-}
 
-
-/*i think this is the idk
-
-@keyframes correctPulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-@keyframes wrongPulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-
-
-/* Dark Mode Toggle Switch */
-.toggle-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 20px;
-  margin: 10px 0;
+/* ---------- Streak Badge ---------- */
+#streakBadge {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #222;
+    color: orange;
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255,140,0,0.7);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index:1000;
+    transition: transform 0.3s;
 }
 
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #4c8cff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-/* Rounded slider style */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
+#streakBadge.grow { transform: scale(1.2); }
