@@ -1,4 +1,7 @@
-import { allQuestions } from './questions.js';
+import { questions } from './questions.js';
+
+console.log(questions.math.easy[0].q);      // "2 + 2 = ?"
+console.log(questions.english.hard[0].q);   // "Choose the most precise word..."
 
 // difficulty settings
 const difficultySettings = {
