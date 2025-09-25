@@ -1,14 +1,13 @@
-import { mathQuestions } from './math.js';
-import { englishQuestions } from './english.js';
+import { allQuestions } from './questions.js';
 
-const allQuestions = { math: mathQuestions, english: englishQuestions };
-
+// difficulty settings
 const difficultySettings = {
   easy: { numQuestions: 10, timePerQ: 60 },
   medium: { numQuestions: 15, timePerQ: 20 },
   hard: { numQuestions: 20, timePerQ: 9 }
 };
 
+// state
 let currentQuestions = [], currentIndex = 0, score = 0;
 let subject = "math", difficulty = "easy";
 let timerInterval, totalTime = 0, timeLeft = 0;
