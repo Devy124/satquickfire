@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAT Quick Fire</title>
 <link rel="stylesheet" href="style.css">
+
+<!-- Load script.js as a module -->
+<script type="module" src="script.js"></script>
 </head>
 <body class="dark">
 
@@ -44,24 +47,20 @@
     <div id="answers"></div>
     <div class="quiz-actions">
       <button class="setup-btn" id="backBtn">←</button>
-      <button class="setup-btn" id="restartBtn">back to start</button>
+      <button class="setup-btn" id="restartBtn">Back to Start</button>
       <button class="setup-btn" id="nextBtn">→</button>
     </div>
   </div>
 
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal">
-  <div class="content">
-    <h2>Settings</h2>
-    <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
-
-    <!-- Stats will be injected here by JS -->
-    <div id="statsContainer"></div>
-
-    <button class="setup-btn" id="closeSettings">Close</button>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="content">
+      <h2>Settings</h2>
+      <label><input type="checkbox" id="themeToggle" checked> Dark Mode</label><br><br>
+      <div id="statsContainer"></div>
+      <button class="setup-btn" id="closeSettings">Close</button>
+    </div>
   </div>
-</div>
-
 
   <!-- End Modal -->
   <div id="endModal" class="modal">
@@ -75,9 +74,10 @@
 
   <!-- Tips -->
   <div id="tipBox"></div>
+<div id="particleContainer"></div>
+<div id="backgroundContainer"></div>
 
 </div>
 
-<script src="script.js"></script>
 </body>
 </html>
