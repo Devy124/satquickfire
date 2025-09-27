@@ -612,3 +612,84 @@ body:not(.dark) #tipBox { color:#121212; background:rgba(255,255,255,0.3); }
     opacity: 0;
   }
 }
+#resourcesContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.small-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.small-btn:hover {
+    background-color: #005fa3;
+    transform: scale(1.05);
+}
+
+/* SAT Resources modal */
+#resourcesModal {
+    display: none;
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#resourcesModal.show {
+    display: flex;
+}
+
+#resourcesModal .content {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-align: left;
+}
+
+#resourcesModal h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+#resourcesModal ul {
+    padding-left: 18px;
+}
+
+#resourcesModal ul li {
+    margin-bottom: 8px;
+}
+
+#resourcesModal ul li a {
+    color: #0077cc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+#resourcesModal ul li a:hover {
+    color: #005fa3;
+}
+
+#resourcesModal .close-btn {
+    margin-top: 15px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #ff5555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    float: right;
+}

@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAT Quick Fire</title>
+<title>SAT Quick Fire BETA</title>
 <link rel="stylesheet" href="style.css">
-
-<!-- Load script.js as a module -->
 <script type="module" src="script.js"></script>
 </head>
 <body class="dark">
@@ -15,9 +13,10 @@
 
   <!-- Setup -->
   <div id="setup">
-    <canvas id="setupCanvas"></canvas>
     <div class="setup-box">
-      <h1>SAT Quick Fire</h1>
+      <h1>SAT Quick Fire BETA V2</h1>
+
+      <!-- Subject Selection -->
       <div id="subjectSelection">
         <h3>Choose Subject:</h3>
         <div class="subject-buttons">
@@ -25,6 +24,8 @@
           <button class="setup-btn subject-btn" data-subject="english">📖 English</button>
         </div>
       </div>
+
+      <!-- Difficulty Selection -->
       <div id="difficultySelection">
         <h3>Select Difficulty:</h3>
         <div class="subject-buttons">
@@ -33,8 +34,15 @@
           <button class="setup-btn difficulty-btn" data-difficulty="hard">Hard</button>
         </div>
       </div>
-      <button class="setup-btn" id="startQuizBtn">Start Quiz</button>
-      <button class="setup-btn" id="settingsBtn">⚙️ Settings</button>
+
+      <!-- Main Setup Buttons -->
+      <div class="main-setup-buttons">
+        <button class="setup-btn" id="startQuizBtn">Start Quiz</button>
+        <button class="setup-btn" id="settingsBtn">⚙️ Settings</button>
+      </div>
+
+      <!-- Daily Question Button & Streak -->
+      <div id="dailyContainer" class="daily-container"></div>
     </div>
   </div>
 
@@ -74,9 +82,6 @@
 
   <!-- Tips -->
   <div id="tipBox"></div>
-<div id="particleContainer"></div>
-<div id="backgroundContainer"></div>
-
 </div>
 
 </body>
